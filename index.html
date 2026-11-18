@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#9f3028">
+
+<title>文墨 · 小说写作</title>
+
+<style>
+
+/* ==================================================
+   01. 全局设置
+================================================== */
+
+:root {
+    --red: #9f3028;
+    --red-dark: #78231e;
+
+    --cyan: #397f83;
+
+    --paper: #f4efdf;
+    --paper-light: #faf7ed;
+    --paper-dark: #e9dfc9;
+
+    --black: #211f1c;
+
+    --gold: #d5b66b;
+    --gold-light: #f0d48a;
+
+    --text: #393329;
+    --text-light: #8b806d;
+
+    --border: #d9cbb0;
+
+    --font:
+        "Songti SC",
+        "Noto Serif SC",
+        "STSong",
+        "SimSun",
+        serif;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    color: var(--text);
+    font-family: var(--font);
+    background: var(--paper);
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* ==================================================
+   02. 页面整体
+================================================== */
+
+.app {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 20%,
+            rgba(255,255,255,.45),
+            transparent 60%
+        ),
+        radial-gradient(
+            ellipse at 80% 80%,
+            rgba(197,174,130,.12),
+            transparent 55%
+        ),
+        var(--paper);
+}
+
+
+/* ==================================================
+   03. 顶部导航栏
+   保持原来的赤色设计，不修改
+================================================== */
+
+.header {
+    position: relative;
+    z-index: 10;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: calc(64px + env(safe-area-inset-top));
+
+    padding:
+        env(safe-area-inset-top)
+        18px
+        0;
+
+    background: var(--red);
+
+    box-shadow:
+        0 2px 8px rgba(48,24,16,.16);
+}
+
+.header::after {
+    content: "";
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--gold);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #fff5dc;
+
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.brand-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid var(--gold);
+
+    color: var(--gold);
+    font-size: 17px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.header-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    min-width: 62px;
+    height: 34px;
+
+    padding: 0 11px;
+
+    border: none;
+    border-radius: 3px;
+
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.header-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.btn-create {
+    color: white;
+    background: var(--cyan);
+}
+
+.btn-create:active {
+    background: #28666a;
+}
+
+.btn-settings {
+    color: var(--red);
+    background: #fff9e9;
+}
+
+.btn-settings:active {
+    background: var(--paper-dark);
+}
+
+
+/* ==================================================
+   04. 中间滚动区域
+================================================== */
+
+.main {
+    flex: 1;
+    min-height: 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 22px 18px 30px;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.main::-webkit-scrollbar {
+    width: 3px;
+}
+
+.main::-webkit-scrollbar-thumb {
+    background: var(--paper-dark);
+}
+
+
+/* ==================================================
+   05. 区域标题
+================================================== */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+    font-size: 18px;
+    letter-spacing: 3px;
+}
+
+.section-title::before,
+.section-title::after {
+    content: "";
+
+    height: 1px;
+    flex: 1;
+
+    background: var(--border);
+}
+
+.section-title span {
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   06. 空书架
+================================================== */
+
+#shelf-page {
+    min-height: 100%;
+}
+
+/* 空书架时隐藏“我的书架”标题 */
+
+#shelf-page:has(.empty-state:not([hidden])) > .section-title {
+    display: none;
+}
+
+/* 空书架整体居中 */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 55vh;
+
+    height: 100%;
+
+    text-align: center;
+}
+
+/* 卷帙未启 */
+
+.empty-title {
+    margin: 0 0 55px;
+
+    color: var(--red);
+
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 6px;
+}
+
+/* 金色装饰线 */
+
+.empty-divider {
+    position: relative;
+
+    width: 245px;
+    height: 2px;
+
+    margin-bottom: 15px;
+
+    background: #c5a04e;
+}
+
+.empty-divider .diamond {
+    position: absolute;
+    top: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    background: #d2ad5b;
+    border: 2px solid #b58e3f;
+
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.empty-divider .diamond.left {
+    left: -5px;
+}
+
+.empty-divider .diamond.right {
+    right: -5px;
+}
+
+/* 中央黑色菱形 */
+
+.empty-diamond {
+    margin-bottom: 12px;
+
+    color: #211f1c;
+    font-size: 29px;
+}
+
+/* 书架尚空 */
+
+.empty-subtitle {
+    margin: 0 0 38px;
+
+    color: #29251f;
+
+    font-size: 25px;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+/* 辅助文案 */
+
+.empty-description {
+    margin: 0;
+
+    color: #8b8478;
+
+    font-size: 20px;
+    line-height: 2.1;
+    letter-spacing: 2px;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   07. 书籍区域
+================================================== */
+
+.content-section {
+    margin-bottom: 32px;
+}
+
+.content-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+    padding-bottom: 9px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.content-section-name {
+    font-size: 16px;
+    letter-spacing: 3px;
+}
+
+.content-section-count {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.book-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 15px 12px;
+}
+
+.book-grid.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.book-card {
+    min-width: 0;
+    cursor: pointer;
+}
+
+.book-cover {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    aspect-ratio: 3 / 4;
+
+    overflow: hidden;
+
+    border: 1px solid #d3c3a4;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e9dfc9,
+            #d9c9a9
+        );
+
+    box-shadow:
+        2px 3px 6px rgba(65,48,25,.12);
+}
+
+.book-cover::before {
+    content: "";
+
+    position: absolute;
+    left: 9px;
+    top: 0;
+    bottom: 0;
+
+    width: 1px;
+
+    background: rgba(120,86,48,.18);
+}
+
+.book-cover-symbol {
+    color: rgba(113,76,40,.7);
+    font-size: 34px;
+}
+
+.book-cover-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 75%;
+
+    transform: translate(-50%,-50%);
+
+    color: #55412c;
+
+    font-size: 15px;
+    line-height: 1.8;
+    letter-spacing: 3px;
+
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.book-info {
+    padding: 8px 2px 0;
+}
+
+.book-name {
+    overflow: hidden;
+
+    color: var(--text);
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book-subtitle {
+    margin-top: 3px;
+
+    color: var(--text-light);
+    font-size: 11px;
+}
+
+
+/* ==================================================
+   08. 列表模式
+================================================== */
+
+.list-view .book-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 9px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,.22);
+}
+
+.list-view .book-cover {
+    width: 52px;
+    flex-shrink: 0;
+}
+
+.list-view .book-cover-symbol {
+    font-size: 21px;
+}
+
+.list-view .book-cover-title {
+    display: none;
+}
+
+.list-view .book-info {
+    min-width: 0;
+    padding: 0;
+}
+
+
+/* ==================================================
+   09. 分组
+================================================== */
+
+.group-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.group-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,.25);
+}
+
+.group-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    color: #92784b;
+    font-size: 23px;
+}
+
+.group-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.group-name {
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.group-count {
+    margin-top: 5px;
+
+    color: var(--text-light);
+    font-size: 11px;
+}
+
+.group-arrow {
+    color: #a99778;
+    font-size: 20px;
+}
+
+
+/* ==================================================
+   10. 工具页面
+================================================== */
+
+.tools-page {
+    padding-top: 8px;
+}
+
+.tools-intro {
+    margin-bottom: 24px;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+    line-height: 2;
+
+    text-align: center;
+}
+
+.tools-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 13px;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 125px;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255,255,255,.25);
+
+    color: var(--text);
+}
+
+.tool-icon {
+    margin-bottom: 12px;
+
+    color: #9b7e45;
+    font-size: 29px;
+}
+
+.tool-name {
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.tool-card:active {
+    background: var(--paper-dark);
+}
+
+
+/* ==================================================
+   11. 底部导航栏
+================================================== */
+
+.footer {
+    position: relative;
+    z-index: 10;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    height: calc(100px + env(safe-area-inset-bottom));
+
+    padding:
+        8px 12px
+        env(safe-area-inset-bottom);
+
+    background: var(--black);
+
+    box-shadow:
+        0 -2px 8px rgba(0,0,0,.12);
+}
+
+.footer::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--gold);
+}
+
+/* 底部按钮 */
+
+.nav-item {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: 50%;
+    height: 100%;
+
+    border: 2px solid transparent;
+    border-radius: 17px;
+
+    background: transparent;
+
+    color: var(--gold);
+
+    font-size: 17px;
+    letter-spacing: 2px;
+}
+
+.nav-item svg {
+    width: 35px;
+    height: 35px;
+}
+
+.nav-item.active {
+    color: var(--gold-light);
+
+    border-color: #bd9749;
+
+    background: rgba(213,182,107,.13);
+
+    box-shadow:
+        0 0 5px rgba(213,182,107,.25);
+}
+
+.nav-item.active::after {
+    display: none;
+}
+
+
+/* ==================================================
+   12. 弹窗
+================================================== */
+
+.modal {
+    position: fixed;
+    z-index: 100;
+
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    padding-bottom:
+        calc(24px + env(safe-area-inset-bottom));
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(22,19,15,.58);
+}
+
+.modal-panel {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 360px;
+
+    padding: 23px 20px;
+
+    border: 1px solid var(--gold);
+
+    background: var(--paper-light);
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.22);
+}
+
+.modal-title {
+    margin: 0 0 22px;
+
+    color: var(--red);
+
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 4px;
+
+    text-align: center;
+}
+
+.modal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.modal-option {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: var(--text);
+
+    text-align: left;
+}
+
+.modal-option:active {
+    background: var(--paper-dark);
+}
+
+.modal-option-icon {
+    color: #987a43;
+    font-size: 23px;
+}
+
+.modal-option-text {
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.modal-option-desc {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--text-light);
+    font-size: 11px;
+}
+
+.modal-close {
+    display: block;
+
+    margin: 20px auto 0;
+    padding: 8px 22px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   13. 输入框
+================================================== */
+
+.input-label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.text-input {
+    width: 100%;
+    height: 43px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+    outline: none;
+
+    background: white;
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.text-input:focus {
+    border-color: var(--red);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.form-btn {
+    flex: 1;
+
+    height: 40px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.form-btn.primary {
+    border-color: var(--red);
+
+    background: var(--red);
+
+    color: white;
+}
+
+
+/* ==================================================
+   14. 设置
+================================================== */
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 14px;
+}
+
+.setting-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.setting-btn {
+    padding: 6px 12px;
+
+    border: 1px solid var(--border);
+
+    background: transparent;
+
+    color: var(--text);
+    font-size: 12px;
+}
+
+.setting-btn.selected {
+    border-color: var(--red);
+
+    background: var(--red);
+
+    color: white;
+}
+
+
+/* ==================================================
+   15. 手机屏幕适配
+================================================== */
+
+@media (max-width: 360px) {
+
+    .header {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .brand {
+        gap: 6px;
+
+        font-size: 17px;
+        letter-spacing: 2px;
+    }
+
+    .header-actions {
+        gap: 5px;
+    }
+
+    .header-btn {
+        min-width: 55px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .main {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    .book-grid {
+        gap: 12px 9px;
+    }
+
+    .empty-title {
+        font-size: 34px;
+    }
+
+    .empty-subtitle {
+        font-size: 21px;
+    }
+
+    .empty-description {
+        font-size: 16px;
+    }
+
+    .empty-divider {
+        width: 200px;
+    }
+
+    .nav-item {
+        font-size: 15px;
+    }
+
+    .nav-item svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- ==================================================
+     顶部导航栏
+================================================== -->
+
+<header class="header">
+
+    <div class="brand">
+        <span class="brand-symbol">文</span>
+        <span>文墨</span>
+    </div>
+
+    <div class="header-actions">
+
+        <button
+            class="header-btn btn-create"
+            id="create-btn"
+            type="button"
+        >
+            <span>＋</span>
+            <span>新建</span>
+        </button>
+
+        <button
+            class="header-btn btn-settings"
+            id="settings-btn"
+            type="button"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+            >
+                <circle cx="12" cy="12" r="3"></circle>
+
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.4 15a1.7 1.7 0 0 0-1.56-1.03H6v-2.4h.2a1.7 1.7 0 0 0 1.56-1.03 1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.7-1.7.06.06A1.7 1.7 0 0 0 11 7.3a1.7 1.7 0 0 0 1.03-1.56V5h2.4v.2a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 18.7 10a1.7 1.7 0 0 0 1.56 1.03h.2v2.4h-.2A1.7 1.7 0 0 0 19.4 15Z"></path>
+            </svg>
+
+            <span>设置</span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     中间内容区域
+================================================== -->
+
+<main class="main" id="main-content">
+
+
+    <!-- 书架页面 -->
+
+    <section id="shelf-page">
+
+        <div class="section-title">
+            <span>我的书架</span>
+        </div>
+
+
+        <!-- 空书架 -->
+
+        <div class="empty-state" id="empty-state">
+
+            <h2 class="empty-title">
+                卷帙未启
+            </h2>
+
+            <div class="empty-divider">
+
+                <span class="diamond left"></span>
+                <span class="diamond right"></span>
+
+            </div>
+
+            <div class="empty-diamond">
+                ◆
+            </div>
+
+            <p class="empty-subtitle">
+                书架尚空，静候新篇。
+            </p>
+
+            <p class="empty-description">
+                此间尚无作品，不妨挥毫落墨，<br>
+                写下你的第一个故事。
+            </p>
+
+        </div>
+
+
+        <!-- 书籍区域 -->
+
+        <section
+            class="content-section"
+            id="books-section"
+            hidden
+        >
+
+            <div class="content-section-header">
+
+                <span class="content-section-name">
+                    藏书
+                </span>
+
+                <span
+                    class="content-section-count"
+                    id="book-count"
+                >
+                    0 本
+                </span>
+
+            </div>
+
+            <div
+                class="book-grid"
+                id="book-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- 分组区域 -->
+
+        <section
+            class="content-section"
+            id="groups-section"
+            hidden
+        >
+
+            <div class="content-section-header">
+
+                <span class="content-section-name">
+                    书籍组合
+                </span>
+
+                <span
+                    class="content-section-count"
+                    id="group-count"
+                >
+                    0 组
+                </span>
+
+            </div>
+
+            <div
+                class="group-list"
+                id="group-list"
+            ></div>
+
+        </section>
+
+    </section>
+
+
+    <!-- 工具页面 -->
+
+    <section
+        class="tools-page"
+        id="tools-page"
+        hidden
+    >
+
+        <div class="section-title">
+            <span>创作工具</span>
+        </div>
+
+        <p class="tools-intro">
+            辅助创作，整理思绪。<br>
+            让每一个故事都有迹可循。
+        </p>
+
+        <div class="tools-grid">
+
+            <button class="tool-card" type="button">
+                <span class="tool-icon">✒</span>
+                <span class="tool-name">人物设定</span>
+            </button>
+
+            <button class="tool-card" type="button">
+                <span class="tool-icon">山</span>
+                <span class="tool-name">世界观</span>
+            </button>
+
+            <button class="tool-card" type="button">
+                <span class="tool-icon">∞</span>
+                <span class="tool-name">关系图谱</span>
+            </button>
+
+            <button class="tool-card" type="button">
+                <span class="tool-icon">历</span>
+                <span class="tool-name">时间线</span>
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ==================================================
+     底部导航栏
+================================================== -->
+
+<footer class="footer">
+
+    <button
+        class="nav-item active"
+        id="nav-shelf"
+        type="button"
+    >
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+        >
+            <path d="M3 5.5 12 2l9 3.5v13L12 22l-9-3.5z"></path>
+            <path d="M3 5.5 12 9l9-3.5"></path>
+            <path d="M12 9v13"></path>
+        </svg>
+
+        <span>书架</span>
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        id="nav-tools"
+        type="button"
+    >
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+        >
+            <path d="M4 4h16v16H4z"></path>
+            <path d="M8 8h8M8 12h8M8 16h5"></path>
+        </svg>
+
+        <span>工具</span>
+
+    </button>
+
+</footer>
+
+</div>
+
+
+<!-- ==================================================
+     新建弹窗
+================================================== -->
+
+<div class="modal" id="create-modal" hidden>
+
+    <div
+        class="modal-backdrop"
+        data-close="create-modal"
+    ></div>
+
+    <div class="modal-panel">
+
+        <h2 class="modal-title">
+            创建新内容
+        </h2>
+
+        <div class="modal-options">
+
+            <button
+                class="modal-option"
+                id="new-book-btn"
+                type="button"
+            >
+
+                <span class="modal-option-icon">
+                    书
+                </span>
+
+                <span>
+                    <span class="modal-option-text">
+                        新建书籍
+                    </span>
+
+                    <span class="modal-option-desc">
+                        开启一个新的故事
+                    </span>
+                </span>
+
+            </button>
+
+
+            <button
+                class="modal-option"
+                id="new-group-btn"
+                type="button"
+            >
+
+                <span class="modal-option-icon">
+                    册
+                </span>
+
+                <span>
+                    <span class="modal-option-text">
+                        新建组合
+                    </span>
+
+                    <span class="modal-option-desc">
+                        将相关书籍整理在一起
+                    </span>
+                </span>
+
+            </button>
+
+        </div>
+
+        <button
+            class="modal-close"
+            data-close="create-modal"
+            type="button"
+        >
+            关闭
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     设置弹窗
+================================================== -->
+
+<div class="modal" id="settings-modal" hidden>
+
+    <div
+        class="modal-backdrop"
+        data-close="settings-modal"
+    ></div>
+
+    <div class="modal-panel">
+
+        <h2 class="modal-title">
+            书架设置
+        </h2>
+
+        <div class="setting-row">
+
+            <span>显示方式</span>
+
+            <div class="setting-buttons">
+
+                <button
+                    class="setting-btn selected"
+                    id="grid-mode-btn"
+                    type="button"
+                >
+                    网格
+                </button>
+
+                <button
+                    class="setting-btn"
+                    id="list-mode-btn"
+                    type="button"
+                >
+                    列表
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <span>排序方式</span>
+
+            <div class="setting-buttons">
+
+                <button
+                    class="setting-btn selected"
+                    id="sort-new-btn"
+                    type="button"
+                >
+                    最新
+                </button>
+
+                <button
+                    class="setting-btn"
+                    id="sort-name-btn"
+                    type="button"
+                >
+                    名称
+                </button>
+
+            </div>
+
+        </div>
+
+        <button
+            class="modal-close"
+            data-close="settings-modal"
+            type="button"
+        >
+            关闭
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     新建书籍弹窗
+================================================== -->
+
+<div class="modal" id="book-modal" hidden>
+
+    <div
+        class="modal-backdrop"
+        data-close="book-modal"
+    ></div>
+
+    <div class="modal-panel">
+
+        <h2 class="modal-title">
+            新建书籍
+        </h2>
+
+        <label
+            class="input-label"
+            for="book-name-input"
+        >
+            请输入书籍名称
+        </label>
+
+        <input
+            class="text-input"
+            id="book-name-input"
+            type="text"
+            maxlength="40"
+            placeholder="请输入书名"
+        >
+
+        <div class="form-actions">
+
+            <button
+                class="form-btn"
+                data-close="book-modal"
+                type="button"
+            >
+                取消
+            </button>
+
+            <button
+                class="form-btn primary"
+                id="confirm-book-btn"
+                type="button"
+            >
+                创建
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     新建组合弹窗
+================================================== -->
+
+<div class="modal" id="group-modal" hidden>
+
+    <div
+        class="modal-backdrop"
+        data-close="group-modal"
+    ></div>
+
+    <div class="modal-panel">
+
+        <h2 class="modal-title">
+            新建组合
+        </h2>
+
+        <label
+            class="input-label"
+            for="group-name-input"
+        >
+            请输入组合名称
+        </label>
+
+        <input
+            class="text-input"
+            id="group-name-input"
+            type="text"
+            maxlength="40"
+            placeholder="例如：玄幻系列"
+        >
+
+        <div class="form-actions">
+
+            <button
+                class="form-btn"
+                data-close="group-modal"
+                type="button"
+            >
+                取消
+            </button>
+
+            <button
+                class="form-btn primary"
+                id="confirm-group-btn"
+                type="button"
+            >
+                创建
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   01. 数据存储
+================================================== */
+
+const STORAGE_KEY = "wenmo_novel_shelf_v1";
+
+let appData = {
+    books: [],
+    groups: [],
+    viewMode: "grid",
+    sortMode: "new"
+};
+
+
+function loadData() {
+
+    try {
+
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved) {
+
+            const parsed = JSON.parse(saved);
+
+            appData = {
+
+                books: Array.isArray(parsed.books)
+                    ? parsed.books
+                    : [],
+
+                groups: Array.isArray(parsed.groups)
+                    ? parsed.groups
+                    : [],
+
+                viewMode: parsed.viewMode || "grid",
+
+                sortMode: parsed.sortMode || "new"
+
+            };
+
+        }
+
+    } catch (error) {
+
+        console.error("读取数据失败：", error);
+
+    }
+
+}
+
+
+function saveData() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(appData)
+        );
+
+    } catch (error) {
+
+        console.error("保存数据失败：", error);
+
+        alert("保存失败，请检查浏览器存储空间。");
+
+    }
+
+}
+
+
+/* ==================================================
+   02. 页面元素
+================================================== */
+
+const shelfPage = document.getElementById("shelf-page");
+
+const toolsPage = document.getElementById("tools-page");
+
+const emptyState = document.getElementById("empty-state");
+
+const booksSection = document.getElementById("books-section");
+
+const groupsSection = document.getElementById("groups-section");
+
+const bookGrid = document.getElementById("book-grid");
+
+const groupList = document.getElementById("group-list");
+
+const bookCount = document.getElementById("book-count");
+
+const groupCount = document.getElementById("group-count");
+
+const navShelf = document.getElementById("nav-shelf");
+
+const navTools = document.getElementById("nav-tools");
+
+
+/* ==================================================
+   03. 弹窗控制
+================================================== */
+
+function openModal(id) {
+
+    const modal = document.getElementById(id);
+
+    if (modal) {
+        modal.hidden = false;
+    }
+
+}
+
+
+function closeModal(id) {
+
+    const modal = document.getElementById(id);
+
+    if (modal) {
+        modal.hidden = true;
+    }
+
+}
+
+
+document.querySelectorAll("[data-close]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        closeModal(button.dataset.close);
+
+    });
+
+});
+
+
+/* ==================================================
+   04. 顶部按钮
+================================================== */
+
+document
+    .getElementById("create-btn")
+    .addEventListener("click", () => {
+
+        openModal("create-modal");
+
+    });
+
+
+document
+    .getElementById("settings-btn")
+    .addEventListener("click", () => {
+
+        openModal("settings-modal");
+
+    });
+
+
+/* ==================================================
+   05. 新建书籍
+================================================== */
+
+document
+    .getElementById("new-book-btn")
+    .addEventListener("click", () => {
+
+        closeModal("create-modal");
+
+        document.getElementById("book-name-input").value = "";
+
+        openModal("book-modal");
+
+        setTimeout(() => {
+
+            document
+                .getElementById("book-name-input")
+                .focus();
+
+        }, 100);
+
+    });
+
+
+document
+    .getElementById("confirm-book-btn")
+    .addEventListener("click", () => {
+
+        const input = document.getElementById("book-name-input");
+
+        const name = input.value.trim();
+
+        if (!name) {
+
+            alert("请输入书籍名称。");
+
+            return;
+
+        }
+
+        appData.books.unshift({
+
+            id: Date.now().toString(),
+
+            name: name,
+
+            createdAt: Date.now()
+
+        });
+
+        saveData();
+
+        closeModal("book-modal");
+
+        renderShelf();
+
+    });
+
+
+/* ==================================================
+   06. 新建组合
+================================================== */
+
+document
+    .getElementById("new-group-btn")
+    .addEventListener("click", () => {
+
+        closeModal("create-modal");
+
+        document.getElementById("group-name-input").value = "";
+
+        openModal("group-modal");
+
+        setTimeout(() => {
+
+            document
+                .getElementById("group-name-input")
+                .focus();
+
+        }, 100);
+
+    });
+
+
+document
+    .getElementById("confirm-group-btn")
+    .addEventListener("click", () => {
+
+        const input = document.getElementById("group-name-input");
+
+        const name = input.value.trim();
+
+        if (!name) {
+
+            alert("请输入组合名称。");
+
+            return;
+
+        }
+
+        appData.groups.unshift({
+
+            id: Date.now().toString(),
+
+            name: name,
+
+            createdAt: Date.now()
+
+        });
+
+        saveData();
+
+        closeModal("group-modal");
+
+        renderShelf();
+
+    });
+
+
+/* ==================================================
+   07. 渲染书架
+================================================== */
+
+function renderShelf() {
+
+    const hasBooks = appData.books.length > 0;
+
+    const hasGroups = appData.groups.length > 0;
+
+    const hasContent = hasBooks || hasGroups;
+
+
+    emptyState.hidden = hasContent;
+
+    booksSection.hidden = !hasBooks;
+
+    groupsSection.hidden = !hasGroups;
+
+
+    bookCount.textContent = appData.books.length + " 本";
+
+    groupCount.textContent = appData.groups.length + " 组";
+
+
+    /* 书籍排序 */
+
+    let books = [...appData.books];
+
+    if (appData.sortMode === "name") {
+
+        books.sort((a, b) => {
+
+            return a.name.localeCompare(b.name, "zh-CN");
+
+        });
+
+    } else {
+
+        books.sort((a, b) => {
+
+            return b.createdAt - a.createdAt;
+
+        });
+
+    }
+
+
+    /* 渲染书籍 */
+
+    bookGrid.innerHTML = "";
+
+    bookGrid.classList.toggle(
+        "list-view",
+        appData.viewMode === "list"
+    );
+
+
+    books.forEach(book => {
+
+        const card = document.createElement("div");
+
+        card.className = "book-card";
+
+
+        const cover = document.createElement("div");
+
+        cover.className = "book-cover";
+
+
+        const symbol = document.createElement("span");
+
+        symbol.className = "book-cover-symbol";
+
+        symbol.textContent = "书";
+
+
+        const title = document.createElement("span");
+
+        title.className = "book-cover-title";
+
+        title.textContent = book.name;
+
+
+        cover.appendChild(symbol);
+
+        cover.appendChild(title);
+
+
+        const info = document.createElement("div");
+
+        info.className = "book-info";
+
+
+        const name = document.createElement("div");
+
+        name.className = "book-name";
+
+        name.textContent = book.name;
+
+
+        const subtitle = document.createElement("div");
+
+        subtitle.className = "book-subtitle";
+
+        subtitle.textContent = "尚未开始创作";
+
+
+        info.appendChild(name);
+
+        info.appendChild(subtitle);
+
+
+        card.appendChild(cover);
+
+        card.appendChild(info);
+
+
+        card.addEventListener("click", () => {
+
+            alert(
+                "你选择了《" + book.name + "》。\n\n" +
+                "书籍编辑页面将在后续版本中接入。"
+            );
+
+        });
+
+
+        bookGrid.appendChild(card);
+
+    });
+
+
+    /* 渲染分组 */
+
+    groupList.innerHTML = "";
+
+
+    appData.groups.forEach(group => {
+
+        const card = document.createElement("div");
+
+        card.className = "group-card";
+
+
+        const symbol = document.createElement("div");
+
+        symbol.className = "group-symbol";
+
+        symbol.textContent = "册";
+
+
+        const info = document.createElement("div");
+
+        info.className = "group-info";
+
+
+        const name = document.createElement("div");
+
+        name.className = "group-name";
+
+        name.textContent = group.name;
+
+
+        const count = document.createElement("div");
+
+        count.className = "group-count";
+
+        count.textContent = "书籍组合";
+
+
+        info.appendChild(name);
+
+        info.appendChild(count);
+
+
+        const arrow = document.createElement("div");
+
+        arrow.className = "group-arrow";
+
+        arrow.textContent = "›";
+
+
+        card.appendChild(symbol);
+
+        card.appendChild(info);
+
+        card.appendChild(arrow);
+
+
+        groupList.appendChild(card);
+
+    });
+
+}
+
+
+/* ==================================================
+   08. 底部导航切换
+================================================== */
+
+function switchPage(page) {
+
+    const isShelf = page === "shelf";
+
+    shelfPage.hidden = !isShelf;
+
+    toolsPage.hidden = isShelf;
+
+
+    navShelf.classList.toggle("active", isShelf);
+
+    navTools.classList.toggle("active", !isShelf);
+
+
+    document
+        .getElementById("main-content")
+        .scrollTop = 0;
+
+}
+
+
+navShelf.addEventListener("click", () => {
+
+    switchPage("shelf");
+
+});
+
+
+navTools.addEventListener("click", () => {
+
+    switchPage("tools");
+
+});
+
+
+/* ==================================================
+   09. 网格 / 列表切换
+================================================== */
+
+const gridModeBtn = document.getElementById("grid-mode-btn");
+
+const listModeBtn = document.getElementById("list-mode-btn");
+
+
+function updateViewMode() {
+
+    gridModeBtn.classList.toggle(
+        "selected",
+        appData.viewMode === "grid"
+    );
+
+    listModeBtn.classList.toggle(
+        "selected",
+        appData.viewMode === "list"
+    );
+
+    renderShelf();
+
+}
+
+
+gridModeBtn.addEventListener("click", () => {
+
+    appData.viewMode = "grid";
+
+    saveData();
+
+    updateViewMode();
+
+});
+
+
+listModeBtn.addEventListener("click", () => {
+
+    appData.viewMode = "list";
+
+    saveData();
+
+    updateViewMode();
+
+});
+
+
+/* ==================================================
+   10. 排序切换
+================================================== */
+
+const sortNewBtn = document.getElementById("sort-new-btn");
+
+const sortNameBtn = document.getElementById("sort-name-btn");
+
+
+function updateSortMode() {
+
+    sortNewBtn.classList.toggle(
+        "selected",
+        appData.sortMode === "new"
+    );
+
+    sortNameBtn.classList.toggle(
+        "selected",
+        appData.sortMode === "name"
+    );
+
+    renderShelf();
+
+}
+
+
+sortNewBtn.addEventListener("click", () => {
+
+    appData.sortMode = "new";
+
+    saveData();
+
+    updateSortMode();
+
+});
+
+
+sortNameBtn.addEventListener("click", () => {
+
+    appData.sortMode = "name";
+
+    saveData();
+
+    updateSortMode();
+
+});
+
+
+/* ==================================================
+   11. 初始化
+================================================== */
+
+function init() {
+
+    loadData();
+
+    updateViewMode();
+
+    updateSortMode();
+
+    renderShelf();
+
+}
+
+
+init();
+
+</script>
+
+</body>
+</html>
