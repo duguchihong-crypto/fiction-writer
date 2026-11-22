@@ -1,0 +1,125 @@
+<div id="wm-create-module">
+    <div class="wm-create-mask" id="wm-create-mask">
+        <div class="wm-create-dialog" id="wm-create-dialog">
+            <h2 class="wm-create-title">新建内容</h2>
+        <button class="wm-create-option" id="wm-create-book" type="button">
+            <span class="wm-create-icon">📖</span>
+            <span class="wm-create-label">新建书籍</span>
+        </button>
+        <button class="wm-create-option" id="wm-create-group" type="button">
+            <span class="wm-create-icon">📚</span>
+            <span class="wm-create-label">新建分组</span>
+        </button>
+    </div>
+</div>
+</div>
+<style>
+#wm-create-module {
+    font-family: inherit;
+}
+#wm-create-module .wm-create-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.35);
+}
+#wm-create-module .wm-create-mask.is-visible {
+    display: flex;
+}
+#wm-create-module .wm-create-dialog {
+    width: 260px;
+    max-width: 85vw;
+    padding: 24px 20px 20px;
+    border-radius: 14px;
+    background: #f4efdf;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: wm-create-appear 0.18s ease-out;
+}
+#wm-create-module .wm-create-title {
+    margin: 0 0 20px;
+    color: #211f1c;
+    font-size: 19px;
+    font-weight: 600;
+}
+#wm-create-module .wm-create-option {
+    display: flex;
+    width: 100%;
+    min-height: 85px;
+    margin-top: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #ded4bd;
+    border-radius: 10px;
+    background: #fffdf7;
+    color: #211f1c;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+#wm-create-module .wm-create-option:active {
+    background: #eee5d2;
+    transform: scale(0.98);
+}
+#wm-create-module .wm-create-icon {
+    font-size: 27px;
+    line-height: 1.2;
+}
+#wm-create-module .wm-create-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+@keyframes wm-create-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+<script>
+(function () {
+    const module = document.getElementById("wm-create-module");
+    if (!module || module.dataset.initialized) return;
+    module.dataset.initialized = "true";
+    const mask = module.querySelector("#wm-create-mask");
+    const dialog = module.querySelector("#wm-create-dialog");
+    const bookButton = module.querySelector("#wm-create-book");
+    const groupButton = module.querySelector("#wm-create-group");
+    // 打开弹窗
+    function openCreateDialog() {
+        mask.classList.add("is-visible");
+    }
+    // 关闭弹窗
+    function closeCreateDialog() {
+        mask.classList.remove("is-visible");
+    }
+    // 监听顶部的新建按钮事件
+    window.addEventListener("wm:create", openCreateDialog);
+    // 点击弹窗以外的区域关闭
+    mask.addEventListener("click", function (event) {
+        if (event.target === mask) {
+            closeCreateDialog();
+        }
+    });
+    // 点击弹窗内部不关闭
+    dialog.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
+    // 暂时只关闭弹窗，不执行后续功能
+    bookButton.addEventListener("click", function () {
+        closeCreateDialog();
+    });
+    groupButton.addEventListener("click", function () {
+        closeCreateDialog();
+    });
+})();
+</script>
