@@ -1,322 +1,266 @@
 /* =================================
-中间区域
+   中间区域
 ================================= */
 
 .wm-shelf {
 
-min-height: 100%;
+    min-height: 100%;
 
 }
 
-/* =================================
-空书架
-================================= */
+
+/* 空书架 */
 
 .wm-empty-state {
 
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 100%;
-min-height: 55vh;
-text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 55vh;
+
+    text-align: center;
 
 }
+
 
 /* 空书架标题 */
 
 .wm-empty-title {
 
-margin: 0 0 55px;
-color: #9f3028;
-font-size: 42px;
-font-weight: bold;
-letter-spacing: 6px;
+    margin: 0 0 55px;
+
+    color: #9f3028;
+
+    font-size: 42px;
+    font-weight: bold;
+
+    letter-spacing: 6px;
 
 }
+
 
 /* 金色装饰线 */
 
 .wm-empty-divider {
 
-position: relative;
-width: 245px;
-height: 2px;
-margin-bottom: 15px;
-background: #c5a04e;
+    position: relative;
+
+    width: 245px;
+    height: 2px;
+
+    margin-bottom: 15px;
+
+    background: #c5a04e;
 
 }
 
 .wm-diamond {
 
-position: absolute;
-top: 50%;
-width: 15px;
-height: 15px;
-background: #d2ad5b;
-border: 2px solid #b58e3f;
-transform: translateY(-50%) rotate(45deg);
+    position: absolute;
+
+    top: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    background: #d2ad5b;
+
+    border: 2px solid #b58e3f;
+
+    transform: translateY(-50%) rotate(45deg);
 
 }
 
 .wm-diamond-left {
 
-left: -5px;
+    left: -5px;
 
 }
 
 .wm-diamond-right {
 
-right: -5px;
+    right: -5px;
 
 }
+
 
 /* 中央装饰 */
 
 .wm-empty-symbol {
 
-margin-bottom: 12px;
-color: #211f1c;
-font-size: 29px;
+    margin-bottom: 12px;
+
+    color: #211f1c;
+
+    font-size: 29px;
 
 }
+
 
 /* 副标题 */
 
 .wm-empty-subtitle {
 
-margin: 0 0 38px;
-color: #29251f;
-font-size: 25px;
-letter-spacing: 2px;
+    margin: 0 0 38px;
+
+    color: #29251f;
+
+    font-size: 25px;
+
+    letter-spacing: 2px;
 
 }
+
 
 /* 辅助文字 */
 
 .wm-empty-description {
 
-margin: 0;
-color: #8b8478;
-font-size: 20px;
-line-height: 2.1;
-letter-spacing: 2px;
+    margin: 0;
+
+    color: #8b8478;
+
+    font-size: 20px;
+
+    line-height: 2.1;
+
+    letter-spacing: 2px;
 
 }
 
+
 /* =================================
-书籍区域
+   书籍区域
 ================================= */
 
 .wm-books-section {
 
-margin-bottom: 32px;
+    margin-bottom: 32px;
 
 }
 
 .wm-section-header {
 
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 14px;
-padding-bottom: 9px;
-border-bottom: 1px solid #d9cbb0;
-font-size: 16px;
-letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+    padding-bottom: 9px;
+
+    border-bottom: 1px solid #d9cbb0;
+
+    font-size: 16px;
+
+    letter-spacing: 2px;
 
 }
 
 .wm-section-header span:last-child {
 
-color: #8b806d;
-font-size: 12px;
+    color: #8b806d;
+
+    font-size: 12px;
 
 }
 
 .wm-book-grid {
 
-display: grid;
-grid-template-columns: repeat(3, minmax(0, 1fr));
-gap: 15px 12px;
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 15px 12px;
 
 }
 
+
 /* =================================
-分组区域
+   分组区域
 ================================= */
 
 .wm-groups-section {
 
-margin-bottom: 32px;
+    margin-bottom: 32px;
 
 }
 
 .wm-group-list {
 
-display: flex;
-flex-direction: column;
-gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
 
 }
 
+
 /* =================================
-工具区域
+   工具区域
 ================================= */
 
 .wm-tools-page {
 
-padding-top: 20px;
+    padding-top: 20px;
 
 }
 
 .wm-tools-title {
 
-font-size: 20px;
-text-align: center;
-letter-spacing: 3px;
+    font-size: 20px;
+
+    text-align: center;
+
+    letter-spacing: 3px;
 
 }
 
 .wm-tools-description {
 
-color: #8b806d;
-font-size: 14px;
-line-height: 2;
-text-align: center;
+    color: #8b806d;
+
+    font-size: 14px;
+
+    line-height: 2;
+
+    text-align: center;
 
 }
+
 
 /* =================================
-新建弹窗
-================================= */
-
-.wm-modal-mask {
-
-position: fixed;
-z-index: 1000;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 20px;
-box-sizing: border-box;
-background: rgba(0,0,0,.55);
-
-}
-
-.wm-modal-mask[hidden] {
-
-display: none;
-
-}
-
-/* 弹窗主体 */
-
-.wm-create-modal {
-
-width: 100%;
-max-width: 340px;
-padding: 28px 22px 20px;
-box-sizing: border-box;
-border: 1px solid #d5b66b;
-background: #f4efdf;
-box-shadow:
-    0 8px 30px rgba(0,0,0,.25);
-text-align: center;
-
-}
-
-/* 弹窗标题 */
-
-.wm-modal-title {
-
-margin: 0 0 25px;
-color: #9f3028;
-font-size: 21px;
-letter-spacing: 4px;
-
-}
-
-/* 新建选项区域 */
-
-.wm-create-options {
-
-display: flex;
-flex-direction: column;
-gap: 14px;
-
-}
-
-/* 新建选项按钮 */
-
-.wm-create-option {
-
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 10px;
-width: 100%;
-min-height: 105px;
-border: 1px solid #d5b66b;
-background: #fffaf0;
-color: #40352c;
-font-family: inherit;
-font-size: 16px;
-letter-spacing: 3px;
-cursor: pointer;
-
-}
-
-.wm-create-option:active {
-
-background: #e9dfc9;
-
-}
-
-/* 选项图标 */
-
-.wm-option-icon {
-
-font-size: 27px;
-
-}
-
-/* 取消按钮 */
-
-.wm-modal-cancel {
-
-margin-top: 20px;
-padding: 9px 30px;
-border: none;
-background: transparent;
-color: #9f3028;
-font-family: inherit;
-font-size: 15px;
-letter-spacing: 3px;
-cursor: pointer;
-
-}
-
-/* =================================
-手机适配
+   手机适配
 ================================= */
 
 @media (max-width: 360px) {
 
-.wm-empty-title {
-    font-size: 34px;
-}
-.wm-empty-subtitle {
-    font-size: 21px;
-}
-.wm-empty-description {
-    font-size: 16px;
-}
-.wm-empty-divider {
-    width: 200px;
-}
+    .wm-empty-title {
+
+        font-size: 34px;
+
+    }
+
+    .wm-empty-subtitle {
+
+        font-size: 21px;
+
+    }
+
+    .wm-empty-description {
+
+        font-size: 16px;
+
+    }
+
+    .wm-empty-divider {
+
+        width: 200px;
+
+    }
 
 }
