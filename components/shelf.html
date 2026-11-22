@@ -1,84 +1,73 @@
 <section class="wm-shelf" id="wm-shelf-page">
-
-    <!-- 空书架 -->
-
-    <div class="wm-empty-state" id="wm-empty-state">
-
-        <h2 class="wm-empty-title">
-            卷帙未启
-        </h2>
-
-        <div class="wm-empty-divider">
-
-            <span class="wm-diamond wm-diamond-left"></span>
-
-            <span class="wm-diamond wm-diamond-right"></span>
-
-        </div>
-
-        <div class="wm-empty-symbol">
-            ◆
-        </div>
-
-        <p class="wm-empty-subtitle">
-            书架尚空，静候新篇。
-        </p>
-
-        <p class="wm-empty-description">
-            此间尚无作品，不妨挥毫落墨，<br>
-            写下你的第一个故事。
-        </p>
-
+<!-- 空书架 -->
+<div class="wm-empty-state" id="wm-empty-state">
+    <h2 class="wm-empty-title">
+        卷帙未启
+    </h2>
+    <div class="wm-empty-divider">
+        <span class="wm-diamond wm-diamond-left"></span>
+        <span class="wm-diamond wm-diamond-right"></span>
     </div>
-
-
-    <!-- 书籍区域 -->
-
-    <section class="wm-books-section" id="wm-books-section" hidden>
-
-        <div class="wm-section-header">
-
-            <span>藏书</span>
-
-            <span id="wm-book-count">0 本</span>
-
+    <div class="wm-empty-symbol">
+        ◆
+    </div>
+    <p class="wm-empty-subtitle">
+        书架尚空，静候新篇。
+    </p>
+    <p class="wm-empty-description">
+        此间尚无作品，不妨挥毫落墨，<br>
+        写下你的第一个故事。
+    </p>
+</div>
+<!-- 书籍区域 -->
+<section class="wm-books-section" id="wm-books-section" hidden>
+    <div class="wm-section-header">
+        <span>藏书</span>
+        <span id="wm-book-count">0 本</span>
+    </div>
+    <div class="wm-book-grid" id="wm-book-grid"></div>
+</section>
+<!-- 分组区域 -->
+<section class="wm-groups-section" id="wm-groups-section" hidden>
+    <div class="wm-section-header">
+        <span>书籍组合</span>
+        <span id="wm-group-count">0 组</span>
+    </div>
+    <div class="wm-group-list" id="wm-group-list"></div>
+</section>
+<!-- 工具页面占位 -->
+<section class="wm-tools-page" id="wm-tools-page" hidden>
+    <div class="wm-tools-title">
+        创作工具
+    </div>
+    <p class="wm-tools-description">
+        辅助创作，整理思绪。<br>
+        让每一个故事都有迹可循。
+    </p>
+</section>
+<!-- 新建弹窗 -->
+<div class="wm-modal-mask" id="wm-create-modal" hidden>
+    <div class="wm-create-modal">
+        <h2 class="wm-modal-title">
+            新建内容
+        </h2>
+        <div class="wm-create-options">
+            <button class="wm-create-option" type="button">
+                <span class="wm-option-icon">📖</span>
+                <span>新建书籍</span>
+            </button>
+            <button class="wm-create-option" type="button">
+                <span class="wm-option-icon">📚</span>
+                <span>新建分组</span>
+            </button>
         </div>
-
-        <div class="wm-book-grid" id="wm-book-grid"></div>
-
-    </section>
-
-
-    <!-- 分组区域 -->
-
-    <section class="wm-groups-section" id="wm-groups-section" hidden>
-
-        <div class="wm-section-header">
-
-            <span>书籍组合</span>
-
-            <span id="wm-group-count">0 组</span>
-
-        </div>
-
-        <div class="wm-group-list" id="wm-group-list"></div>
-
-    </section>
-
-
-    <!-- 工具页面占位 -->
-
-    <section class="wm-tools-page" id="wm-tools-page" hidden>
-
-        <div class="wm-tools-title">
-            创作工具
-        </div>
-
-        <p class="wm-tools-description">
-            辅助创作，整理思绪。<br>
-            让每一个故事都有迹可循。
-        </p>
-
-    </section>
-
+        <button
+            class="wm-modal-cancel"
+            id="wm-modal-cancel"
+            type="button"
+        >
+            取消
+        </button>
+    </div>
+</div>
 </section>
