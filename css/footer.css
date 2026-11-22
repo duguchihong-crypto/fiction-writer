@@ -1,486 +1,356 @@
 /* ======================================================
-   写作软件 · 底部导航栏
-   文件：css/footer.css
+文墨 · 底部导航栏
+文件：css/footer.css
 
-   文件职责：
-   1. 设置玄黑色底栏。
-   2. 设置鎏金色图标与文字。
-   3. 设置当前页面的黄色选中框。
-   4. 固定底部导航栏。
-   5. 适配手机、平板、极窄屏幕与横屏。
-   6. 兼容 iPhone 底部安全区域。
+文件职责：
 
-   设计规范：
-   - 背景：玄黑色。
-   - 图标和文字：鎏金色。
-   - 选中状态：黄色高亮框。
-   - 顶部装饰：鎏金色边框。
+1. 设置底部导航栏外观。
+2. 设置图标和文字。
+3. 设置当前页面的选中状态。
+4. 固定底部导航栏。
 
-   文件边界：
-   本文件只管理底部导航栏。
-   不负责书架主体、顶部导航或数据存储。
+注意：
+HTML 必须使用本文件对应的类名。
 ====================================================== */
 
-
 /* ======================================================
-   一、底部高度变量
-
-   修改高度后，请同步检查 page-css/home.css
-   中的 --home-footer-height 和主体区域 bottom 值。
+一、底部高度变量
 ====================================================== */
 
 :root {
-  --home-footer-height: 64px;
-  --home-footer-height-tablet: 68px;
-  --home-footer-height-desktop: 80px;
+–home-footer-height: 56px;
+–home-footer-height-tablet: 60px;
+–home-footer-height-desktop: 64px;
 }
 
-
 /* ======================================================
-   二、底部栏主体
+二、底部导航栏主体
 ====================================================== */
 
 .app-footer {
-  /* 布局 */
+position: fixed;
 
-  display: block;
+right: 0;
+bottom: 0;
+left: 0;
 
-  box-sizing: border-box;
+z-index: 1000;
 
-  width: 100%;
-  min-width: 0;
+display: block;
 
-  /* 默认高度 */
+box-sizing: border-box;
 
-  min-height: var(--home-footer-height-desktop);
+width: 100%;
+height: calc(var(–home-footer-height-desktop) + env(safe-area-inset-bottom, 0px));
 
-  /* 固定在屏幕底部 */
+padding-bottom: env(safe-area-inset-bottom, 0px);
 
-  position: fixed;
+background-color: var(–theme-footer-background, #211f1c);
+color: var(–theme-footer-text, #d5b66b);
 
-  right: 0;
-  bottom: 0;
-  left: 0;
+border-top: 1px solid var(–color-yellow-dark, #a88638);
 
-  z-index: 1000;
+box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.12);
 
-  /* 颜色 */
+flex-shrink: 0;
 
-  background-color: var(--theme-footer-background, #171717);
-  color: var(--theme-footer-text, #D6B15E);
-
-  /* 鎏金色上边框 */
-
-  border: 0;
-  border-top: 1px solid var(--color-yellow-dark, #A88638);
-
-  /* 阴影 */
-
-  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.12);
-
-  /* 避免底栏被压缩 */
-
-  flex-shrink: 0;
-
-  /* 防止内部内容造成横向溢出 */
-
-  overflow: visible;
-
-  /* 让底部安全区域融入玄黑色底栏 */
-
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-
-  /* 独立层叠上下文 */
-
-  isolation: isolate;
+isolation: isolate;
 }
 
-
 /* ======================================================
-   三、底部导航容器
+三、底部导航容器
 ====================================================== */
 
 .bottom-nav {
-  display: flex;
+display: flex;
 
-  align-items: center;
-  justify-content: center;
+align-items: center;
+justify-content: center;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 
-  width: 100%;
-  min-width: 0;
+width: 100%;
+height: 100%;
 
-  min-height: var(--home-footer-height-desktop);
+padding: 4px 12px;
 
-  padding: 8px 16px;
-
-  gap: 12px;
+gap: 8px;
 }
 
-
 /* ======================================================
-   四、导航入口
+四、导航按钮
 ====================================================== */
 
 .bottom-nav__item {
-  position: relative;
+position: relative;
 
-  display: flex;
+display: flex;
 
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 
-  /* 多个入口时平均分配空间 */
+flex: 1 1 0;
 
-  flex: 0 1 140px;
+min-width: 0;
+height: 100%;
 
-  min-width: 0;
-  min-height: 54px;
+padding: 3px 8px;
 
-  padding: 6px 16px;
+gap: 1px;
 
-  gap: 3px;
+color: var(–theme-footer-text, #d5b66b);
 
-  /* 默认颜色 */
+background-color: transparent;
 
-  color: var(--theme-footer-text, #D6B15E);
-  background-color: transparent;
+border: 1px solid transparent;
+border-radius: 8px;
 
-  /* 边框 */
+font-family: inherit;
 
-  border: 1px solid transparent;
-  border-radius: 8px;
+text-align: center;
+text-decoration: none;
 
-  /* 文字 */
+cursor: pointer;
 
-  font-family: inherit;
-  text-align: center;
-  text-decoration: none;
+user-select: none;
+-webkit-user-select: none;
 
-  /* 交互 */
+-webkit-tap-highlight-color: transparent;
 
-  cursor: pointer;
-
-  user-select: none;
-  -webkit-user-select: none;
-
-  -webkit-tap-highlight-color: transparent;
-
-  /* 动画 */
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+transition:
+background-color 0.2s ease,
+border-color 0.2s ease,
+color 0.2s ease,
+box-shadow 0.2s ease;
 }
 
-
 /* ======================================================
-   五、导航图标
+五、导航图标
 ====================================================== */
 
 .bottom-nav__icon {
-  display: block;
+display: block;
 
-  width: 22px;
-  height: 22px;
+width: 21px;
+height: 21px;
 
-  flex: 0 0 auto;
+flex: 0 0 auto;
 
-  color: currentColor;
+color: currentColor;
 
-  fill: none;
-  stroke: currentColor;
+fill: none;
+stroke: currentColor;
 
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+stroke-width: 1.8;
+stroke-linecap: round;
+stroke-linejoin: round;
 
-  pointer-events: none;
+pointer-events: none;
 }
 
-
 /* ======================================================
-   六、导航文字
+六、导航文字
 ====================================================== */
 
 .bottom-nav__label {
-  display: block;
+display: block;
 
-  max-width: 100%;
+max-width: 100%;
 
-  margin: 0;
-  padding: 0;
+margin: 0;
+padding: 0;
 
-  color: currentColor;
+color: currentColor;
 
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+font-family: inherit;
 
-  line-height: 1.4;
-  letter-spacing: 1px;
+font-size: 12px;
+font-weight: 600;
 
-  text-align: center;
-  white-space: nowrap;
+line-height: 1.2;
+letter-spacing: 1px;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
+text-align: center;
+white-space: nowrap;
 
-  pointer-events: none;
+overflow: hidden;
+text-overflow: ellipsis;
+
+pointer-events: none;
 }
 
-
 /* ======================================================
-   七、当前页面的选中状态
+七、当前页面选中状态
 ====================================================== */
 
-.bottom-nav__item--active {
-  color: var(--color-yellow-light, #F2D477);
+.bottom-nav__item–active {
+color: var(–color-yellow-light, #f2d477);
 
-  background-color: var(--color-yellow-transparent, rgba(214, 177, 94, 0.12));
+background-color: var(
+–color-yellow-transparent,
+rgba(214, 177, 94, 0.12)
+);
 
-  border-color: var(--theme-selected-border, #D6B15E);
+border-color: var(–theme-selected-border, #d6b15e);
 
-  box-shadow:
-    inset 0 0 0 1px rgba(214, 177, 94, 0.12),
-    0 0 8px rgba(214, 177, 94, 0.08);
+box-shadow:
+inset 0 0 0 1px rgba(214, 177, 94, 0.12),
+0 0 8px rgba(214, 177, 94, 0.08);
 }
 
-
-/* 当前页面的文字稍微加重 */
-
-.bottom-nav__item--active .bottom-nav__label {
-  font-weight: 700;
+.bottom-nav__item–active .bottom-nav__label {
+font-weight: 700;
 }
 
-
-/* 当前页面的图标稍微突出 */
-
-.bottom-nav__item--active .bottom-nav__icon {
-  stroke-width: 2;
+.bottom-nav__item–active .bottom-nav__icon {
+stroke-width: 2;
 }
-
 
 /* ======================================================
-   八、鼠标悬停
+八、鼠标悬停
 ====================================================== */
 
 @media (hover: hover) and (pointer: fine) {
 
-  .bottom-nav__item:not(.bottom-nav__item--active):hover {
-    color: var(--color-yellow-light, #F2D477);
+.bottom-nav__item:not(.bottom-nav__item–active):hover {
+color: var(–color-yellow-light, #f2d477);
 
-    background-color: var(
-      --color-yellow-transparent,
-      rgba(214, 177, 94, 0.12)
-    );
-
-    border-color: var(--color-yellow-dark, #A88638);
-  }
-
-  .bottom-nav__item--active:hover {
-    background-color: var(
-      --color-yellow-transparent,
-      rgba(214, 177, 94, 0.12)
-    );
-
-    border-color: var(--color-yellow-light, #F2D477);
-  }
+background-color: rgba(214, 177, 94, 0.12);
+border-color: var(--color-yellow-dark, #a88638);
 
 }
 
+}
 
 /* ======================================================
-   九、键盘焦点
+九、键盘焦点
 ====================================================== */
 
 .bottom-nav__item:focus-visible {
-  outline: 2px solid var(--theme-focus, #F2D477);
+outline: 2px solid var(–theme-focus, #f2d477);
 
-  outline-offset: 2px;
+outline-offset: 2px;
 }
 
-
 /* ======================================================
-   十、平板适配
+十、平板适配
 ====================================================== */
 
-@media (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 768px) {
 
-  .app-footer {
-    min-height: var(--home-footer-height-tablet);
-  }
+.app-footer {
+height: calc(
+var(–home-footer-height-tablet) +
+env(safe-area-inset-bottom, 0px)
+);
+}
 
-  .bottom-nav {
-    min-height: var(--home-footer-height-tablet);
+.bottom-nav {
+padding: 5px 16px;
+gap: 10px;
+}
 
-    padding: 7px 12px;
+.bottom-nav__icon {
+width: 22px;
+height: 22px;
+}
 
-    gap: 10px;
-  }
-
-  .bottom-nav__item {
-    flex-basis: 130px;
-
-    min-height: 52px;
-
-    padding: 6px 12px;
-  }
+.bottom-nav__label {
+font-size: 13px;
+}
 
 }
 
-
 /* ======================================================
-   十一、手机适配
-====================================================== */
-
-@media (max-width: 480px) {
-
-  .app-footer {
-    min-height: var(--home-footer-height);
-  }
-
-  .bottom-nav {
-    min-height: var(--home-footer-height);
-
-    padding: 6px 12px;
-
-    gap: 8px;
-  }
-
-  .bottom-nav__item {
-    flex: 1 1 0;
-
-    min-width: 0;
-    min-height: 48px;
-
-    padding: 5px 6px;
-
-    border-radius: 7px;
-  }
-
-  .bottom-nav__icon {
-    width: 21px;
-    height: 21px;
-  }
-
-  .bottom-nav__label {
-    font-size: 12px;
-
-    letter-spacing: 0.5px;
-  }
-
-}
-
-
-/* ======================================================
-   十二、极窄屏幕适配
+十一、极窄屏幕适配
 ====================================================== */
 
 @media (max-width: 340px) {
 
-  .bottom-nav {
-    padding-right: 6px;
-    padding-left: 6px;
+.bottom-nav {
+padding-right: 5px;
+padding-left: 5px;
+gap: 4px;
+}
 
-    gap: 4px;
-  }
+.bottom-nav__item {
+padding-right: 3px;
+padding-left: 3px;
+}
 
-  .bottom-nav__item {
-    padding-right: 3px;
-    padding-left: 3px;
-  }
+.bottom-nav__icon {
+width: 19px;
+height: 19px;
+}
 
-  .bottom-nav__icon {
-    width: 19px;
-    height: 19px;
-  }
-
-  .bottom-nav__label {
-    font-size: 11px;
-    letter-spacing: 0;
-  }
+.bottom-nav__label {
+font-size: 11px;
+letter-spacing: 0;
+}
 
 }
 
-
 /* ======================================================
-   十三、横屏手机适配
+十二、横屏手机适配
 ====================================================== */
 
 @media (max-height: 450px) and (orientation: landscape) {
 
-  .app-footer {
-    min-height: 48px;
-  }
+.app-footer {
+height: calc(44px + env(safe-area-inset-bottom, 0px));
+}
 
-  .bottom-nav {
-    min-height: 48px;
+.bottom-nav {
+padding: 2px 8px;
+gap: 6px;
+}
 
-    padding-top: 3px;
-    padding-bottom: 3px;
+.bottom-nav__item {
+flex-direction: row;
+gap: 6px;
+padding: 3px 8px;
+}
 
-    gap: 6px;
-  }
+.bottom-nav__icon {
+width: 18px;
+height: 18px;
+}
 
-  .bottom-nav__item {
-    flex-direction: row;
-
-    flex: 0 1 auto;
-
-    min-height: 38px;
-
-    padding: 5px 10px;
-
-    gap: 6px;
-  }
-
-  .bottom-nav__icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .bottom-nav__label {
-    font-size: 12px;
-  }
+.bottom-nav__label {
+font-size: 12px;
+}
 
 }
 
-
 /* ======================================================
-   十四、减少动态效果
+十三、减少动态效果
 ====================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
-  .bottom-nav__item {
-    transition: none;
-  }
+.bottom-nav__item {
+transition: none;
+}
 
 }
 
-
 /* ======================================================
-   十五、文件职责边界
+十四、文件职责边界
 
-   本文件只管理底部导航栏。
+本文件只负责底部导航栏。
 
-   不在这里添加：
-   - 顶部导航栏样式。
-   - 书架主体布局。
-   - 书籍卡片与分组样式。
-   - 设置弹窗样式。
-   - 新建书籍或分组表单。
-   - 数据存储逻辑。
+不负责：
 
-   注意：
-   本文件将 .app-footer 固定在屏幕底部。
-   page-css/home.css 必须为主体预留相应空间，
-   避免最后一行书籍被底栏遮挡。
+* 顶部导航栏。
+* 书架主体。
+* 书籍卡片。
+* 分组管理。
+* 弹窗。
+* 数据存储。
+
+主体页面需要预留底部空间，
+避免内容被固定导航栏遮挡。
 ====================================================== */
