@@ -15,8 +15,7 @@ import { initCreateModal } from “../create/js/modal.js”;
 
 async function loadComponent(containerId, filePath) {
 
-const container =
-    document.getElementById(containerId);
+const container = document.getElementById(containerId);
 const response = await fetch(filePath);
 if (!response.ok) {
     throw new Error("组件加载失败：" + filePath);
