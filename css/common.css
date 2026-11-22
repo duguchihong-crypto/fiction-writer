@@ -1,0 +1,142 @@
+/* =================================
+   全局基础设置
+================================= */
+
+:root {
+
+    --wm-red: #9f3028;
+
+    --wm-paper: #f4efdf;
+
+    --wm-paper-light: #faf7ed;
+
+    --wm-black: #211f1c;
+
+    --wm-gold: #d5b66b;
+
+    --wm-text: #393329;
+
+    --wm-border: #d9cbb0;
+
+}
+
+
+* {
+
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color: transparent;
+
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+
+}
+
+
+body {
+
+    overflow: hidden;
+
+    color: var(--wm-text);
+
+    font-family:
+        "Songti SC",
+        "Noto Serif SC",
+        "STSong",
+        "SimSun",
+        serif;
+
+}
+
+
+button {
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+}
+
+
+[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* =================================
+   首页整体布局
+================================= */
+
+.wm-app {
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 20%,
+            rgba(255,255,255,.45),
+            transparent 60%
+        ),
+        radial-gradient(
+            ellipse at 80% 80%,
+            rgba(197,174,130,.12),
+            transparent 55%
+        ),
+        var(--wm-paper);
+
+}
+
+
+/* =================================
+   中间滚动区域
+================================= */
+
+.wm-main {
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-x: hidden;
+
+    overflow-y: auto;
+
+    padding: 22px 18px 30px;
+
+    overscroll-behavior: contain;
+
+    -webkit-overflow-scrolling: touch;
+
+}
+
+
+.wm-main::-webkit-scrollbar {
+
+    width: 3px;
+
+}
+
+
+.wm-main::-webkit-scrollbar-thumb {
+
+    background: #e9dfc9;
+
+}
